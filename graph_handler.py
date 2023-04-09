@@ -9,5 +9,7 @@ def plotter(xdata, ydata, title, x_label, y_label):
     plot.set_xlabel(x_label, weight = 'bold')
     plot.set_ylabel(y_label, weight = 'bold')
     plot.grid(True)
+    ax = plt.gca()
+    ax.set_xticks(xdata[::10])
     plt.show()
     return 

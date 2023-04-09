@@ -11,13 +11,12 @@ fii_list = pd.read_excel("FII_LIST.xlsx")
 div_list=[]
 name_list=[]
 pvp_list=[]
-
+    
 browser = scrap_init(base_url)
 
 for index,row in fii_list.iterrows():
     asset = fii_list.iloc[index,0]
     name_list.append(asset)
-    print(name_list)
     get_url(browser, (base_url + asset))
     buffer(1)
     div = get_element_xpath(browser, "/html//main[@id='main-2']//div[@title='Dividend Yield com base nos últimos 12 meses']/strong[@class='value']")
@@ -31,8 +30,10 @@ full_asset_data = {'COD':name_list,'PVP':div_list,'DIV':pvp_list}
 
 asserted_fii_list = dataframe_build(full_asset_data, ['COD', 'PVP', 'DIV'])
 asserted_fii_list = asserted_fii_list.apply(lambda x: x.str.replace(',','.'))
+asserted_fii_list = asserted_fii_list.apply(lambda x: x.str.replace('-',''))
 asserted_fii_list.replace('null',np.NaN, inplace=True)
-asserted_fii_list = asserted_fii_list.astype({'PVP': 'float', 'DIV':'float'})
-
+print(asserted_fii_list)
+asserted_fii_list = asserted_fii_list.astype({'PVP': 'float', 'DIV':'float'}, errors= 'ignore')
+asserted_fii_list.to_csv("FII_LIST_ACTIVE.CSV")
+asserted_fii_list.dropna(axis=0, how='any', inplace=True)
 plotter(asserted_fii_list.pop('DIV'), asserted_fii_list.pop('PVP'), "Listagem de FII", "Dividendos", "PVP")
-
