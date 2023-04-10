@@ -23,7 +23,6 @@ def get_element_xpath(browser,xpath):
         return element
 
     except:
-        print("Unable to fetch")
         pass
     
     
