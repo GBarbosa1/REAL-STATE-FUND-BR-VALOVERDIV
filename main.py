@@ -12,6 +12,9 @@ div_list=[]
 name_list=[]
 pvp_list=[]
 value_list=[]
+title = 'Realstate fund'
+xlabel = 'PVE'
+ylabel = 'Dividends'
     
 browser = scrap_init(base_url)
 
@@ -50,4 +53,4 @@ asserted_fii_list = asserted_fii_list[asserted_fii_list.DIV> 0]
 
 asserted_fii_list.to_csv("FII_LIST_ACTIVE.CSV")
 
-plotter(asserted_fii_list.pop('DIV'), asserted_fii_list.pop('PVP'),asserted_fii_list('COD'))
+plotter(asserted_fii_list.pop('PVP'), asserted_fii_list.pop('DIV'),asserted_fii_list('COD'),title,xlabel,ylabel)

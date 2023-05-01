@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
-def plotter(xdata, ydata, asset_name):
+def plotter(xdata, ydata, asset_name, title, xlabel, ylabel):
     colors = np.random.randint(1, 5, size=len(xdata))
     norm = plt.Normalize(1, 4)
     cmap = plt.cm.PiYG
@@ -42,6 +42,9 @@ def plotter(xdata, ydata, asset_name):
                     annotation.set_visible(False)
                     fig.canvas.draw_idle()
     fig.canvas.mpl_connect('motion_notify_event', motion_hover)
+    fig.title(title)
+    fig.xlabel(xlabel)
+    fig.ylabel(ylabel)
     plt.show()
     return
 
