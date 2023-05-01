@@ -50,4 +50,4 @@ asserted_fii_list = asserted_fii_list[asserted_fii_list.DIV> 0]
 
 asserted_fii_list.to_csv("FII_LIST_ACTIVE.CSV")
 
-plotter(asserted_fii_list.pop('DIV'), asserted_fii_list.pop('PVP'), "Listagem de FII", "Dividendos em %", "PVP (Preço sobre patrimônio)", 0, 20, 0,25, asserted_fii_list.pop('VALUE'))
+plotter(asserted_fii_list.pop('DIV'), asserted_fii_list.pop('PVP'),asserted_fii_list('COD'))
