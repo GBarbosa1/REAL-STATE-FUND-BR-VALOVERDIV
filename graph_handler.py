@@ -3,15 +3,15 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
-def plotter(xdata, ydata, asset_name, title, xlabel, ylabel):
+def plotter(xdata, ydata, value, asset_name, title, xlabel, ylabel):
     colors = np.random.randint(1, 5, size=len(xdata))
     norm = plt.Normalize(1, 4)
     cmap = plt.cm.PiYG
     fig, ax = plt.subplots()
     scatter = plt.scatter(
         x=xdata,
-        y=ydata,
-        s=100)
+        s = value,
+        y=ydata)
     annotation = ax.annotate(
     text='',
     xy=(0, 0),
@@ -42,15 +42,17 @@ def plotter(xdata, ydata, asset_name, title, xlabel, ylabel):
                     annotation.set_visible(False)
                     fig.canvas.draw_idle()
     fig.canvas.mpl_connect('motion_notify_event', motion_hover)
-    fig.title(title)
-    fig.xlabel(xlabel)
-    fig.ylabel(ylabel)
+    plt.title(title)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.gca().set_xlim(left=0)
+    plt.gca().set_ylim(bottom=0)
     plt.show()
     return
 
 asserted_fii_list = pd.read_csv('FII_LIST_ACTIVE.CSV',sep=',')
 
-plotter(asserted_fii_list.pop('DIV'), asserted_fii_list.pop('PVP'),asserted_fii_list.pop('COD'))
+plotter(asserted_fii_list.pop('DIV'), asserted_fii_list.pop('PVP'),asserted_fii_list.pop('VALUE'),asserted_fii_list.pop('COD'), 'Real state fund', 'DIV', 'PVE')
 
 
 
