@@ -53,4 +53,4 @@ asserted_fii_list = asserted_fii_list[asserted_fii_list.DIV> 0]
 
 asserted_fii_list.to_csv("FII_LIST_ACTIVE.CSV")
 
-plotter(asserted_fii_list.pop('PVP'), asserted_fii_list.pop('DIV'),asserted_fii_list('COD'),title,xlabel,ylabel)
+plotter(asserted_fii_list.pop('PVP'), asserted_fii_list.pop('DIV'),asserted_fii_list('COD'),asserted_fii_list('VALUE'),title,xlabel,ylabel)
