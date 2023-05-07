@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 
 def dataframe_build(data, columns):
     dataframe = pd.DataFrame(data = data, columns=columns)
@@ -20,3 +21,13 @@ def dataframe_str_trunc(dataframe, column,number,direction):
     else:
         pass
     return dataframe
+
+def dataframe_read(file_path, sep=''):
+    extension = os.path.splitext(file_path)[1]
+    print(extension)
+    if extension == '.csv':
+        dataframe = pd.read_csv(file_path,sep)
+        return dataframe
+    elif extension=='.xlsx':
+        dataframe=pd.read_excel(file_path)
+        return dataframe

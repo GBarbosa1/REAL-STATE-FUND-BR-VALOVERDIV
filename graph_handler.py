@@ -9,7 +9,6 @@ def plotter_with_hoover(xdata, ydata, asset_name, value, title, xlabel, ylabel):
     norm = plt.Normalize(1, 4)
     cmap = plt.cm.PiYG
     fig, ax = plt.subplots()
-    plt.subplot(121)
     scatter = plt.scatter(
         x=xdata,
         s = value,
@@ -46,30 +45,17 @@ def plotter_with_hoover(xdata, ydata, asset_name, value, title, xlabel, ylabel):
     plt.ylabel(ylabel)
     plt.gca().set_xlim(left=0)
     plt.gca().set_ylim(bottom=0)
-
     return
 
 def plotter (xdata,ydata,title,xlabel,ylabel):
-    plt.subplot(122)
     ax = plt.gca()
     plt.plot(xdata,ydata)
     plt.setp(ax.get_xticklabels(), rotation=45) 
     plt.title(title)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
-    plt.gca().set_xlim(left=0)
-    plt.gca().set_ylim(bottom=0)
 
 def show():
     plt.show()
-
-# asserted_fii_list = pd.read_csv('FII_LIST_ACTIVE.CSV',sep=',')
-# asserted_list = pd.read_csv('test.csv',sep=',')
-
-#plotter(asserted_fii_list.pop('DIV'), asserted_fii_list.pop('PVP'),asserted_fii_list.pop('VALUE'),asserted_fii_list.pop('COD'), 'Real state fund', 'DIV', 'PVE')
-# asserted_list = dataframe_astype(asserted_list,'Date',np.datetime64)
-# asserted_list = dataframe_str_trunc(asserted_list, 'Date', 14,'Right')
-# plotter(asserted_list.pop('Date'), asserted_list.pop('Close'))
-# show()
 
 
