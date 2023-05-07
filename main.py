@@ -1,8 +1,12 @@
 import pandas as pd
 import numpy as np
+from datetime import datetime, timedelta
 from scrap_engine import scrap_init, get_url, get_element_xpath, click, send_keys, buffer, strip
 from graph_handler import plotter, plotter_with_hoover
 from dataframe_handler import dataframe_build
+
+today_day = datetime.now()
+past_date = today_day - timedelta(days = 90)
 
 base_url = "https://statusinvest.com.br/fundos-imobiliarios/"
 buffer(1)
