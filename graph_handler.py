@@ -2,6 +2,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+from dataframe_handler import dataframe_astype, dataframe_str_trunc
 
 def plotter_with_hoover(xdata, ydata, value, asset_name, title, xlabel, ylabel):
     colors = np.random.randint(1, 5, size=len(xdata))
@@ -48,18 +49,23 @@ def plotter_with_hoover(xdata, ydata, value, asset_name, title, xlabel, ylabel):
 
     return
 
-def plotter (xdata,ydata):
+def plotter (xdata,ydata,title,xlim):
     plt.subplot(122)
+    ax = plt.gca()
     plt.plot(xdata,ydata)
+    plt.setp(ax.get_xticklabels(), rotation=45) 
+    plt.title(title)
 
 def show():
     plt.show()
-    
+
 # asserted_fii_list = pd.read_csv('FII_LIST_ACTIVE.CSV',sep=',')
 # asserted_list = pd.read_csv('test.csv',sep=',')
 
 #plotter(asserted_fii_list.pop('DIV'), asserted_fii_list.pop('PVP'),asserted_fii_list.pop('VALUE'),asserted_fii_list.pop('COD'), 'Real state fund', 'DIV', 'PVE')
-
+# asserted_list = dataframe_astype(asserted_list,'Date',np.datetime64)
+# asserted_list = dataframe_str_trunc(asserted_list, 'Date', 14,'Right')
 # plotter(asserted_list.pop('Date'), asserted_list.pop('Close'))
+# show()
 
 
