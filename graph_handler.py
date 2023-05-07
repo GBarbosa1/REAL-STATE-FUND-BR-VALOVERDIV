@@ -49,12 +49,16 @@ def plotter_with_hoover(xdata, ydata, value, asset_name, title, xlabel, ylabel):
 
     return
 
-def plotter (xdata,ydata,title,xlim):
+def plotter (xdata,ydata,title,xlabel,ylabel):
     plt.subplot(122)
     ax = plt.gca()
     plt.plot(xdata,ydata)
     plt.setp(ax.get_xticklabels(), rotation=45) 
     plt.title(title)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.gca().set_xlim(left=0)
+    plt.gca().set_ylim(bottom=0)
 
 def show():
     plt.show()
