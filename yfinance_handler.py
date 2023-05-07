@@ -1,5 +1,7 @@
 import yfinance as yf
 
-ifix = yf.Ticker("VALE3.SA")
-ifix_hist = vale3.history(start='2022-01-01',end='2023-04-21', interval= '1d')
-ifix_hist.reset_index(inplace=True)
+def yfinance (tick_name, init_date, end_date,interval):
+    ticker = yf.Ticker(tick_name)
+    ticker_hist = ticker.history(start=init_date,end=end_date, interval=interval)
+    ticker_hist.reset_index(inplace=True)
+    return ticker_hist
