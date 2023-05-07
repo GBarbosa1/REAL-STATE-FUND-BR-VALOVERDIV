@@ -3,11 +3,12 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
-def plotter(xdata, ydata, value, asset_name, title, xlabel, ylabel):
+def plotter_with_hoover(xdata, ydata, value, asset_name, title, xlabel, ylabel):
     colors = np.random.randint(1, 5, size=len(xdata))
     norm = plt.Normalize(1, 4)
     cmap = plt.cm.PiYG
     fig, ax = plt.subplots()
+    plt.subplot(121)
     scatter = plt.scatter(
         x=xdata,
         s = value,
@@ -28,13 +29,10 @@ def plotter(xdata, ydata, value, asset_name, title, xlabel, ylabel):
             if is_contained:
                 data_point_location = scatter.get_offsets()[annotation_index['ind'][0]]
                 annotation.xy = data_point_location
-
                 text_label = (asset_name.iloc[annotation_index['ind'][0]])
                 annotation.set_text(text_label)
-
                 annotation.get_bbox_patch().set_facecolor(cmap(norm(colors[annotation_index['ind'][0]])))
                 annotation.set_alpha(0.4)
-
                 annotation.set_visible(True)
                 fig.canvas.draw_idle()
             else:
@@ -50,10 +48,17 @@ def plotter(xdata, ydata, value, asset_name, title, xlabel, ylabel):
     plt.show()
     return
 
-asserted_fii_list = pd.read_csv('FII_LIST_ACTIVE.CSV',sep=',')
+def plotter (xdata,ydata):
+    plt.subplot(122)
+    plt.plot(xdata,ydata)
+    plt.show()
 
-plotter(asserted_fii_list.pop('DIV'), asserted_fii_list.pop('PVP'),asserted_fii_list.pop('VALUE'),asserted_fii_list.pop('COD'), 'Real state fund', 'DIV', 'PVE')
 
+# asserted_fii_list = pd.read_csv('FII_LIST_ACTIVE.CSV',sep=',')
+# asserted_list = pd.read_csv('test.csv',sep=',')
 
+#plotter(asserted_fii_list.pop('DIV'), asserted_fii_list.pop('PVP'),asserted_fii_list.pop('VALUE'),asserted_fii_list.pop('COD'), 'Real state fund', 'DIV', 'PVE')
+
+# plotter(asserted_list.pop('Date'), asserted_list.pop('Close'))
 
 
