@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 from dataframe_handler import dataframe_astype, dataframe_str_trunc
 
-def plotter_with_hoover(xdata, ydata, value, asset_name, title, xlabel, ylabel):
+def plotter_with_hoover(xdata, ydata, asset_name, value, title, xlabel, ylabel):
     colors = np.random.randint(1, 5, size=len(xdata))
     norm = plt.Normalize(1, 4)
     cmap = plt.cm.PiYG

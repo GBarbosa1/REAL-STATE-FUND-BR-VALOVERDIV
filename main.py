@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 from scrap_engine import scrap_init, get_url, get_element_xpath, click, send_keys, buffer, strip
-from graph_handler import plotter, plotter_with_hoover
+from graph_handler import plotter, plotter_with_hoover, show
 from dataframe_handler import dataframe_build
 from yfinance_handler import yfinance
 today_day = datetime.now()
@@ -47,6 +47,5 @@ asserted_fii_list = asserted_fii_list[asserted_fii_list.VALUE > 0]
 asserted_fii_list = asserted_fii_list[asserted_fii_list.DIV> 0]
 asserted_fii_list.to_csv("FII_LIST_ACTIVE.CSV")
 
-plotter_with_hoover(asserted_fii_list.pop('PVP'), asserted_fii_list.pop('DIV'),asserted_fii_list('COD'),asserted_fii_list('VALUE'),title,xlabel,ylabel)
-ifix_data=yfinance('IFIX.SA',today_day,past_date,'1d')
-plotter(ifix_data['Date'],ifix_data['Close'],title='IFIX',xlabel='Data',ylabel='Valor')
+plotter_with_hoover(asserted_fii_list.pop('PVP'), asserted_fii_list.pop('DIV'),asserted_fii_list['COD'],asserted_fii_list['VALUE'],title = 'Fundos imobiliários',xlabel = 'PVP',ylabel='DIV')
+show() 
