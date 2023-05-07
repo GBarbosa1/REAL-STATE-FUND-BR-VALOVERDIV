@@ -45,15 +45,16 @@ def plotter_with_hoover(xdata, ydata, value, asset_name, title, xlabel, ylabel):
     plt.ylabel(ylabel)
     plt.gca().set_xlim(left=0)
     plt.gca().set_ylim(bottom=0)
-    plt.show()
+
     return
 
 def plotter (xdata,ydata):
     plt.subplot(122)
     plt.plot(xdata,ydata)
+
+def show():
     plt.show()
-
-
+    
 # asserted_fii_list = pd.read_csv('FII_LIST_ACTIVE.CSV',sep=',')
 # asserted_list = pd.read_csv('test.csv',sep=',')
 
