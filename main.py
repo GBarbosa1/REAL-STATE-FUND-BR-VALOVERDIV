@@ -2,22 +2,25 @@ import pandas as pd
 import numpy as np
 import os
 from datetime import datetime, timedelta
-from scrap_engine import scrap_init, get_url, get_element_xpath, click, send_keys, buffer, strip
-from graph_handler import plotter, plotter_with_hoover, show
-from dataframe_handler import dataframe_build,dataframe_read,dataframe_sort,dataframe_astype
-today_day = datetime.now()
-past_date = today_day - timedelta(days = 90)
-base_url = "https://statusinvest.com.br/fundos-imobiliarios/"
-ifix_url = "https://www.infomoney.com.br/cotacoes/b3/indice/ifix/historico/"
+from scrap_engine.scrap_engine import scrap_init, get_url, get_element_xpath, click, buffer, strip
+from graph_handler.graph_handler import plotter, plotter_with_hoover, show
+from dataframe_handler.dataframe_handler import dataframe_build,dataframe_read
+from json_handler.json_handler import json_load
+
+settings_json = json_load('settings.json')
+
+base_url = settings_json['url'][0]['base_url']
+
 buffer(1)
-fii_list = pd.read_excel("FII_LIST.xlsx")
+fii_list = pd.read_excel(settings_json['assets'][0]['input_asset_file'])
 div_list=[]
 name_list=[]
 pvp_list=[]
 value_list=[]
-title = 'Realstate fund'
-xlabel = 'PVE'
-ylabel = 'Dividends'
+title = settings_json['graphs'][0]['dividend_over_pve'][0]['title']
+xlabel = settings_json['graphs'][0]['dividend_over_pve'][0]['xlabel']
+ylabel = settings_json['graphs'][0]['dividend_over_pve'][0]['ylabel']
+
 browser = scrap_init(base_url)
 for index,row in fii_list.iterrows():
     asset = fii_list.iloc[index,0]
@@ -25,15 +28,15 @@ for index,row in fii_list.iterrows():
     get_url(browser, (base_url + asset))
     buffer(1)
     
-    div = get_element_xpath(browser, "/html//main[@id='main-2']//div[@title='Dividend Yield com base nos últimos 12 meses']/strong[@class='value']")
+    div = get_element_xpath(browser,xpath= settings_json['scrap'][0]['div_xpath'])
     div_value = strip(div)
     div_list.append(div_value)
     
-    pvp = get_element_xpath(browser, "/html//main[@id='main-2']/div[@class='container pb-7']/div[5]/div/div[2]/div/div[1]/strong[@class='value']")
+    pvp = get_element_xpath(browser,xpath= settings_json['scrap'][0]['pvp_xpath'])
     pvp_value = strip(pvp)
     pvp_list.append(pvp_value)
     
-    value = get_element_xpath(browser, xpath= "/html//main[@id='main-2']//div[@title='Valor atual do ativo']/strong[@class='value']")
+    value = get_element_xpath(browser, xpath= settings_json['scrap'][0]['value'])
     value_val = strip(value)
     value_list.append(value_val)
     
@@ -46,22 +49,8 @@ asserted_fii_list = asserted_fii_list.astype({'PVP': 'float', 'DIV':'float', 'VA
 asserted_fii_list.dropna(axis=0, how='any', inplace=True)
 asserted_fii_list = asserted_fii_list[asserted_fii_list.VALUE > 0]
 asserted_fii_list = asserted_fii_list[asserted_fii_list.DIV> 0]
-asserted_fii_list.to_csv("FII_LIST_ACTIVE.CSV")
+asserted_fii_list.to_excel(settings_json['assets'][0]['output_asset_file'])
 
-get_url(browser, ifix_url)
 buffer(60)
-ifix_hist_table = get_element_xpath(browser,"//div[@id='quotes_history_wrapper']//button[@type='button']/span[.='Baixar arquivo']")
-click(ifix_hist_table)
-buffer(2)
-ifix_data=dataframe_read('Índice de Fundos de Investimentos Imobiliários (IFIX) - Histórico  InfoMoney.csv',sep=',')
-ifix_data['DATA'] = pd.to_datetime(ifix_data['DATA'], format='%d/%m/%Y')
-ifix_data=ifix_data.iloc[::-1]
-plotter(ifix_data['DATA'],ifix_data['FECHAMENTO'],'IFIX','Data','Valor')
-plotter_with_hoover(asserted_fii_list.pop('PVP'), asserted_fii_list.pop('DIV'),asserted_fii_list['COD'],asserted_fii_list['VALUE'],title = 'Fundos imobiliários',xlabel = 'PVP',ylabel='DIV')
+plotter_with_hoover(asserted_fii_list['PVP'], asserted_fii_list.pop['DIV'],asserted_fii_list['COD'],asserted_fii_list['VALUE'],title = title,xlabel = xlabel,ylabel=ylabel)
 show()
-
-if os.path.exists('Índice de Fundos de Investimentos Imobiliários (IFIX) - Histórico  InfoMoney.csv'):
-    os.remove('Índice de Fundos de Investimentos Imobiliários (IFIX) - Histórico  InfoMoney.csv')
-    print("File deleted successfully")
-else:
-    print("The file does not exist") 
